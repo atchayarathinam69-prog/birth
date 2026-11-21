@@ -1,0 +1,768 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE BOY, THE MAN, THE UNIVERSE</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at center, #182044, #080914 60%, #020207);
+    color: white;
+    font-family: Georgia, serif;
+    overflow-x: hidden;
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-image:
+      radial-gradient(2px 2px at 20% 30%, white, transparent),
+      radial-gradient(2px 2px at 80% 20%, #d6c7ff, transparent),
+      radial-gradient(1px 1px at 50% 70%, white, transparent),
+      radial-gradient(2px 2px at 70% 85%, #b5c8ff, transparent),
+      radial-gradient(1px 1px at 15% 80%, white, transparent);
+    background-size: 250px 250px;
+    animation: stars 15s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes stars {
+    to { transform: translateY(-250px); }
+}
+
+.container {
+    position: relative;
+    z-index: 2;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 25px;
+}
+
+.small {
+    color: #c6b5ff;
+    letter-spacing: 5px;
+    font-size: 11px;
+    margin-bottom: 25px;
+}
+
+h1 {
+    font-size: clamp(35px, 7vw, 75px);
+    line-height: 1.2;
+    letter-spacing: 4px;
+    font-weight: normal;
+    text-shadow: 0 0 25px #a58cff;
+}
+
+h1 span {
+    display: block;
+    color: #d9caff;
+}
+
+.line {
+    width: 100px;
+    height: 1px;
+    background: #c5a9ff;
+    margin: 30px auto;
+    box-shadow: 0 0 15px #c5a9ff;
+}
+
+.quote {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #d4d1e8;
+    max-width: 550px;
+    font-style: italic;
+}
+
+button {
+    margin-top: 35px;
+    padding: 16px 30px;
+    border: 1px solid #c8b5ff;
+    border-radius: 30px;
+    background: transparent;
+    color: white;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: 0.4s;
+    font-family: Georgia, serif;
+}
+
+button:hover {
+    background: #c8b5ff;
+    color: #090817;
+    box-shadow: 0 0 30px #a58cff;
+}
+
+.footer {
+    position: absolute;
+    bottom: 25px;
+    color: #8f8aa8;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+#countdownPage {
+    display: none;
+}
+
+.timer {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 35px;
+}
+
+.time-box {
+    border: 1px solid #8271b5;
+    background: rgba(255,255,255,0.05);
+    border-radius: 15px;
+    padding: 20px 15px;
+    min-width: 90px;
+    box-shadow: 0 0 20px rgba(165,140,255,0.15);
+}
+
+.time-box strong {
+    display: block;
+    font-size: 32px;
+    color: #e0d4ff;
+}
+
+.time-box span {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: #b9afd7;
+}
+
+#birthdayPage {
+    display: none;
+    overflow: hidden;
+    isolation: isolate;
+    background: #05040d;
+}
+
+.birthday-photo-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-color: #05040d;
+    background-image:
+        linear-gradient(rgba(4,4,14,0.25), rgba(4,4,14,0.45)),
+        url("photos/birthday.jpeg");
+    background-position: center;
+    background-size: auto, contain;
+    background-repeat: no-repeat;
+    opacity: 0;
+    animation: birthdayPhotoReveal 2.5s ease forwards;
+    pointer-events: none;
+}
+
+@keyframes birthdayPhotoReveal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+#birthdayPage > :not(.birthday-photo-bg) {
+    z-index: 2;
+}
+
+#birthdayPage .footer {
+    position: absolute;
+    z-index: 2;
+}
+
+#birthdayMessage {
+    font-size: clamp(30px, 6vw, 65px);
+    color: #f1d8ff;
+    margin-top: 30px;
+    animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+    from { text-shadow: 0 0 10px #b58cff; }
+    to { text-shadow: 0 0 35px #e5aaff, 0 0 60px #a58cff; }
+}
+
+#fireworks {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 5;
+    pointer-events: none;
+}
+
+#memoriesPage {
+    display: none;
+    min-height: 100vh;
+    padding: 65px 20px;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.section-title {
+    font-size: clamp(30px, 5vw, 48px);
+    color: #e1d4ff;
+    text-shadow: 0 0 20px #a58cff;
+    margin-bottom: 15px;
+}
+
+.memory-caption {
+    color: #c9c0df;
+    font-style: italic;
+    margin-bottom: 35px;
+    line-height: 1.7;
+}
+
+.photo-frame {
+    width: min(85vw, 520px);
+    height: min(65vh, 520px);
+    margin: auto;
+    border: 2px solid #bca3ff;
+    border-radius: 18px;
+    padding: 9px;
+    box-shadow: 0 0 30px rgba(181,140,255,0.4);
+    background: rgba(255,255,255,0.05);
+}
+
+.photo-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 10px;
+    opacity: 1;
+    transition: opacity 0.7s;
+}
+
+.photo-number {
+    color: #cbbaff;
+    margin-top: 18px;
+    letter-spacing: 3px;
+    font-size: 12px;
+}
+
+#videoSection {
+    display: none;
+    padding: 70px 20px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+}
+
+.video-frame {
+    width: min(90vw, 700px);
+    margin: 30px auto;
+    border: 2px solid #bca3ff;
+    border-radius: 18px;
+    padding: 8px;
+    box-shadow: 0 0 30px rgba(181,140,255,0.35);
+}
+
+.video-frame iframe {
+    display: block;
+    width: 100%;
+    height: min(65vh, 450px);
+    border: none;
+    border-radius: 12px;
+    background: black;
+}
+
+.end-note {
+    color: #d8caff;
+    font-size: 18px;
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 25px auto;
+}
+
+#finalMessagePage {
+    display: none;
+    min-height: 100vh;
+    padding: 30px;
+    text-align: center;
+    background: radial-gradient(ellipse, #29204b, #080914 70%);
+    position: relative;
+    z-index: 3;
+}
+
+#finalMessagePage h1 {
+    color: #fff;
+    font-size: clamp(30px, 6vw, 60px);
+    text-shadow: 0 0 25px #d9caff;
+    line-height: 1.5;
+}
+
+.final-love {
+    color: #f5dfff;
+    font-size: clamp(22px, 4vw, 36px);
+    margin-top: 30px;
+    line-height: 1.8;
+}
+
+@media(max-width: 500px) {
+    .small { letter-spacing: 3px; }
+    .time-box { min-width: 70px; padding: 15px 10px; }
+    .time-box strong { font-size: 25px; }
+    .footer { font-size: 9px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="stars"></div>
+<canvas id="fireworks"></canvas>
+
+<audio id="backgroundMusic" loop preload="auto">
+    <source src="audios/Kadhaippoma.mp3" type="audio/mpeg">
+</audio>
+
+<!-- OPENING PAGE -->
+<section class="container" id="homePage">
+    <p class="small">A WORLD MADE JUST FOR YOU</p>
+
+    <h1>
+        THE BOY,
+        <span>THE MAN,</span>
+        THE UNIVERSE
+    </h1>
+
+    <div class="line"></div>
+
+    <p class="quote">
+        Once, he was just a little boy.<br>
+        Time turned him into a man.<br>
+        But to me, he'll always be my whole universe.
+    </p>
+
+    <button onclick="enterUniverse()">ENTER YOUR UNIVERSE</button>
+
+    <div class="footer">A SPECIAL BIRTHDAY EXPERIENCE · 2026</div>
+</section>
+
+<!-- COUNTDOWN PAGE -->
+<section class="container" id="countdownPage">
+    <p class="small">THE UNIVERSE IS WAITING FOR YOU</p>
+
+    <h1>
+        YOUR SPECIAL DAY
+        <span>IS ALMOST HERE</span>
+    </h1>
+
+    <div class="line"></div>
+
+    <p class="quote">
+        Every second brings us closer to celebrating you.
+    </p>
+
+    <div class="timer" id="timer">
+        <div class="time-box">
+            <strong id="days">00</strong>
+            <span>DAYS</span>
+        </div>
+
+        <div class="time-box">
+            <strong id="hours">00</strong>
+            <span>HOURS</span>
+        </div>
+
+        <div class="time-box">
+            <strong id="minutes">00</strong>
+            <span>MINUTES</span>
+        </div>
+
+        <div class="time-box">
+            <strong id="seconds">00</strong>
+            <span>SECONDS</span>
+        </div>
+    </div>
+
+    <div class="footer">MADE WITH LOVE · JUST FOR YOU</div>
+</section>
+
+<!-- MIDNIGHT BIRTHDAY REVEAL -->
+<section class="container" id="birthdayPage">
+    <div class="birthday-photo-bg" aria-hidden="true"></div>
+
+    <p class="small">THE WAIT IS FINALLY OVER</p>
+
+    <h1 id="birthdayMessage">
+        HAPPY BIRTHDAY
+        <span>MY LOVE! ❤️</span>
+    </h1>
+
+    <div class="line"></div>
+
+    <p class="quote">
+        Today, the universe celebrates the most beautiful soul.<br>
+        And I'm lucky to have you in my world.
+    </p>
+
+    <button onclick="startMemories()">ENTER OUR MEMORIES ❤️</button>
+
+    <div class="footer">YOU ARE MY FAVOURITE UNIVERSE</div>
+</section>
+
+<!-- PHOTO SLIDESHOW -->
+<section id="memoriesPage">
+    <p class="small">EVERY PICTURE HOLDS A MEMORY</p>
+
+    <h2 class="section-title">OUR LITTLE UNIVERSE</h2>
+
+    <p class="memory-caption">
+        From being your mom's little boy to becoming my forever man, and someday, I hope to become a part of the beautiful family that raised you and loved you long before I did. 🤍
+    </p>
+
+    <div class="photo-frame">
+        <img id="slideshow" src="photos/photo1.jpeg" alt="Our memory">
+    </div>
+
+    <p class="photo-number" id="photoNumber">MEMORY 01 / 20</p>
+
+    <p class="memory-caption" style="margin-top:30px;">
+        And there's still so much more to our story. ❤️
+    </p>
+
+    <button onclick="showVideo()">A MESSAGE FROM ME ❤️</button>
+</section>
+
+<!-- PERSONAL VIDEO -->
+<section id="videoSection">
+    <p class="small">A LITTLE SOMETHING FROM MY HEART</p>
+
+    <h2 class="section-title">SOME WORDS FOR YOU</h2>
+
+    <p class="memory-caption">
+        Not just words written on a screen...<br>
+        These are words I wanted you to hear from me.
+    </p>
+
+    <div class="video-frame">
+        <iframe
+            src="https://drive.google.com/file/d/1R6jurAnY_dQ1GTC6cCAHed5pPq54W8_y/preview"
+            allow="autoplay; fullscreen"
+            allowfullscreen
+            title="A birthday message from me">
+        </iframe>
+    </div>
+
+    <p class="end-note">
+        No matter how much time passes,<br>
+        you'll always have a special place in my universe. ❤️
+    </p>
+
+    <button onclick="finishVideo()">CONTINUE ❤️</button>
+</section>
+
+<!-- FINAL MESSAGE AFTER VIDEO -->
+<section id="finalMessagePage" class="container">
+    <p class="small">ONE LAST THING FROM MY HEART</p>
+
+    <h1>
+        ONCE AGAIN,
+        <span>HAPPY BIRTHDAY NGAAAA🤍</span>
+    </h1>
+
+    <div class="line"></div>
+
+    <p class="final-love">
+        LOVE YOU SOOO MUCHH AMMUUU 🤍
+        <br><br>
+        🤗😘
+    </p>
+
+    <p class="quote" style="margin-top:30px;">
+        No matter how many birthdays come,<br>
+        I'll always be there to celebrate you. ❤️
+    </p>
+</section>
+
+<script>
+
+// ELEMENTS
+const homePage = document.getElementById("homePage");
+const countdownPage = document.getElementById("countdownPage");
+const birthdayPage = document.getElementById("birthdayPage");
+const memoriesPage = document.getElementById("memoriesPage");
+const videoSection = document.getElementById("videoSection");
+const finalMessagePage = document.getElementById("finalMessagePage");
+
+const music = document.getElementById("backgroundMusic");
+
+let birthdayShown = false;
+let currentPhoto = 1;
+let photoInterval;
+let birthday = 0;
+
+/*
+TEST MODE:
+true  = 1-minute test countdown.
+false = Real birthday countdown (21 November 2026, midnight).
+*/
+const TEST_MODE = false;
+
+
+// ENTER BUTTON
+function enterUniverse() {
+
+    homePage.style.display = "none";
+    countdownPage.style.display = "flex";
+
+    music.volume = 0.65;
+
+    music.play().catch(() => {
+        console.log("Check the song file name and audios folder.");
+    });
+
+    if (TEST_MODE) {
+        birthday = Date.now() + (1 * 60 * 1000);
+    } else {
+        birthday = new Date("2026-11-21T00:00:00+05:30").getTime();
+    }
+
+    updateCountdown();
+}
+
+
+// COUNTDOWN
+function updateCountdown() {
+
+    if (!birthday || birthdayShown) return;
+
+    const now = Date.now();
+    const distance = birthday - now;
+
+    if (distance <= 0) {
+        birthdayShown = true;
+        showBirthday();
+        return;
+    }
+
+    document.getElementById("days").textContent =
+        String(Math.floor(distance / (1000 * 60 * 60 * 24))).padStart(2, "0");
+
+    document.getElementById("hours").textContent =
+        String(Math.floor((distance / (1000 * 60 * 60)) % 24)).padStart(2, "0");
+
+    document.getElementById("minutes").textContent =
+        String(Math.floor((distance / (1000 * 60)) % 60)).padStart(2, "0");
+
+    document.getElementById("seconds").textContent =
+        String(Math.floor((distance / 1000) % 60)).padStart(2, "0");
+}
+
+
+// BIRTHDAY REVEAL
+function showBirthday() {
+
+    countdownPage.style.display = "none";
+    birthdayPage.style.display = "flex";
+
+    startFireworks();
+}
+
+
+// FIREWORKS
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+
+let particles = [];
+let fireworksActive = false;
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+
+function createFirework() {
+
+    const x = Math.random() * canvas.width;
+    const y = Math.random() * canvas.height * 0.55;
+
+    const colors = [
+        "#ffb6e6",
+        "#d8b4ff",
+        "#fff1a8",
+        "#a9dcff",
+        "#ff8bba"
+    ];
+
+    const color = colors[Math.floor(Math.random() * colors.length)];
+
+    for (let i = 0; i < 65; i++) {
+
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 4 + 1;
+
+        particles.push({
+            x: x,
+            y: y,
+            vx: Math.cos(angle) * speed,
+            vy: Math.sin(angle) * speed,
+            life: 90,
+            color: color
+        });
+    }
+}
+
+
+function animateFireworks() {
+
+    if (!fireworksActive) return;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach((p, index) => {
+
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vy += 0.025;
+        p.life--;
+
+        ctx.globalAlpha = Math.max(0, p.life / 90);
+        ctx.fillStyle = p.color;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+        ctx.fill();
+
+        if (p.life <= 0) {
+            particles.splice(index, 1);
+        }
+    });
+
+    ctx.globalAlpha = 1;
+
+    requestAnimationFrame(animateFireworks);
+}
+
+
+function startFireworks() {
+
+    if (fireworksActive) return;
+
+    fireworksActive = true;
+
+    for (let i = 0; i < 5; i++) {
+        setTimeout(createFirework, i * 400);
+    }
+
+    setInterval(() => {
+        if (fireworksActive) {
+            createFirework();
+        }
+    }, 850);
+
+    animateFireworks();
+}
+
+
+// START MEMORIES
+function startMemories() {
+
+    birthdayPage.style.display = "none";
+    memoriesPage.style.display = "block";
+
+    if (!photoInterval) {
+        photoInterval = setInterval(nextPhoto, 4000);
+    }
+
+    window.scrollTo(0, 0);
+}
+
+
+// PHOTO SLIDESHOW
+// Photos: photo1.jpeg to photo20.jpeg
+function nextPhoto() {
+
+    const nextNumber = currentPhoto >= 20 ? 1 : currentPhoto + 1;
+    const nextSrc = "photos/photo" + nextNumber + ".jpeg";
+
+    const photo = document.getElementById("slideshow");
+
+    photo.style.opacity = 0;
+
+    const imageLoader = new Image();
+
+    imageLoader.onload = () => {
+
+        photo.src = nextSrc;
+        currentPhoto = nextNumber;
+
+        document.getElementById("photoNumber").textContent =
+            "MEMORY " + String(currentPhoto).padStart(2, "0") + " / 20";
+
+        photo.style.opacity = 1;
+    };
+
+    imageLoader.onerror = () => {
+
+        photo.style.opacity = 1;
+
+        console.error("Photo not found: " + nextSrc);
+
+        document.getElementById("photoNumber").textContent =
+            "PHOTO NOT FOUND: photo" + nextNumber + ".jpeg";
+    };
+
+    imageLoader.src = nextSrc;
+}
+
+
+// VIDEO PAGE
+function showVideo() {
+
+    clearInterval(photoInterval);
+    photoInterval = null;
+
+    memoriesPage.style.display = "none";
+    videoSection.style.display = "block";
+
+    // Pause background music while video is watched
+    music.pause();
+
+    window.scrollTo(0, 0);
+}
+
+
+// CONTINUE AFTER VIDEO
+function finishVideo() {
+
+    videoSection.style.display = "none";
+    finalMessagePage.style.display = "flex";
+
+    window.scrollTo(0, 0);
+
+    // Continue music from the exact paused position
+    music.play().catch(() => {
+        console.log("Tap the page once if the song does not restart.");
+    });
+}
+
+
+// CHECK COUNTDOWN EVERY SECOND
+setInterval(updateCountdown, 1000);
+
+</script>
+
+</body>
+</html>
