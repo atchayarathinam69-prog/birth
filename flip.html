@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>A Little Universe For You</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    font-family: Georgia, serif;
+    background:
+        radial-gradient(circle at 20% 20%, #253b70 0%, transparent 35%),
+        radial-gradient(circle at 80% 80%, #38204e 0%, transparent 35%),
+        #050817;
+    color: white;
+}
+
+.stars {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+        radial-gradient(2px 2px at 20% 30%, white 90%, transparent),
+        radial-gradient(1px 1px at 70% 20%, white 90%, transparent),
+        radial-gradient(2px 2px at 80% 70%, white 90%, transparent),
+        radial-gradient(1px 1px at 35% 80%, white 90%, transparent);
+    background-size: 180px 180px;
+    animation: twinkle 4s infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: .35; }
+    to { opacity: 1; }
+}
+
+.container {
+    text-align: center;
+    width: 90%;
+    max-width: 390px;
+    perspective: 1200px;
+    z-index: 1;
+}
+
+.heading {
+    font-size: 12px;
+    letter-spacing: 5px;
+    color: #e4c78b;
+    margin-bottom: 30px;
+}
+
+.card {
+    width: 100%;
+    height: 440px;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1.1s ease;
+    cursor: pointer;
+}
+
+.card.flipped {
+    transform: rotateY(180deg);
+}
+
+.side {
+    position: absolute;
+    inset: 0;
+    border: 1px solid #b99a61;
+    border-radius: 18px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 25px;
+    background: linear-gradient(145deg, #101d3b, #090d20 65%, #241537);
+    box-shadow: 0 0 35px #a88a4530;
+}
+
+.front .moon {
+    font-size: 48px;
+    margin-bottom: 25px;
+}
+
+.front h1 {
+    font-size: 27px;
+    line-height: 1.5;
+    letter-spacing: 2px;
+    color: #f4dfad;
+}
+
+.front p {
+    margin-top: 25px;
+    color: #d2c4a5;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.inside {
+    transform: rotateY(180deg);
+}
+
+.inside h2 {
+    color: #f4dfad;
+    font-size: 22px;
+    letter-spacing: 2px;
+    margin-bottom: 12px;
+}
+
+.inside p {
+    font-size: 13px;
+    color: #d8d4e8;
+    margin-bottom: 20px;
+}
+
+.qr {
+    width: 190px;
+    height: 190px;
+    object-fit: contain;
+    background: white;
+    padding: 8px;
+    border-radius: 10px;
+}
+
+.hint {
+    margin-top: 25px;
+    color: #d8c69e;
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+.footer {
+    margin-top: 24px;
+    color: #a9a8bb;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+@media(max-height: 650px) {
+    .card { height: 380px; }
+    .qr { width: 155px; height: 155px; }
+}
+</style>
+</head>
+
+<body>
+<div class="stars"></div>
+
+<div class="container">
+    <div class="heading">A SPECIAL LITTLE SURPRISE</div>
+
+    <div class="card" id="card" onclick="flipCard()">
+
+        <div class="side front">
+            <div class="moon">🌙</div>
+            <h1>A LITTLE<br>SURPRISE<br>FOR YOU</h1>
+            <p>TAP TO DISCOVER ✨</p>
+        </div>
+
+        <div class="side inside">
+            <h2>YOUR UNIVERSE AWAITS</h2>
+            <p>One little scan. A whole universe of memories. 🤍</p>
+            <img class="qr" src="newqr.jpeg" alt="Birthday surprise QR code">
+            <div class="hint">SCAN ME ✨</div>
+        </div>
+
+    </div>
+
+    <div class="footer">THE BOY, THE MAN, THE UNIVERSE</div>
+</div>
+
+<script>
+function flipCard() {
+    document.getElementById("card").classList.toggle("flipped");
+}
+</script>
+</body>
+</html>
